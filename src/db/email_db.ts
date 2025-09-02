@@ -4,9 +4,7 @@ export class EmailDB {
   constructor() {}
 
   async create(email: string) {
-    const { data, error } = await supabase
-      .from("users")
-      .insert({ email: email });
+    const data = await supabase.from("users").insert({ email: email });
 
     return data;
   }

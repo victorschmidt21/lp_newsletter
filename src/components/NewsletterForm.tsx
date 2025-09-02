@@ -73,19 +73,22 @@ export const NewsletterForm = () => {
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
 
       const response = await emailDB.create(state.email);
-
+      console.log(response);
       clearTimeout(timeoutId);
 
-      // if (response.ok) {
-      //   setState(prev => ({ ...prev, isSubmitted: true, isLoading: false }));
-      //   toast({
-      //     title: "Sucesso!",
-      //     description: "Você foi inscrito na nossa newsletter.",
-      //   });
-      // } else {
-      //   const errorData = await response.json().catch(() => ({}));
-      //   throw new Error(errorData.message || `Erro ${response.status}: ${response.statusText}`);
-      // }
+      if (response.status == 201) {
+        setState((prev) => ({ ...prev, isSubmitted: true, isLoading: false }));
+        toast({
+          title: "Sucesso!",
+          description: "Você foi inscrito na nossa newsletter.",
+        });
+      } else {
+        const errorData = response.error;
+        throw new Error(
+          errorData.message || `Erro ${response.status}: ${response.statusText}`
+        );
+      }
+      
     } catch (error) {
       setState((prev) => ({ ...prev, isLoading: false }));
 
