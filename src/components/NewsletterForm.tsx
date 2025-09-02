@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Mail, CheckCircle, Loader2, ArrowRight } from "lucide-react";
+import { EmailDB } from "@/db/email_db";
 
 interface FormState {
   email: string;
@@ -11,6 +12,7 @@ interface FormState {
 }
 
 export const NewsletterForm = () => {
+  const emailDB = new EmailDB();
   const [state, setState] = useState<FormState>({
     email: "",
     isLoading: false,
@@ -40,20 +42,21 @@ export const NewsletterForm = () => {
   const validateEmail = (email: string) => {
     const trimmedEmail = email.trim();
     if (!trimmedEmail) return false;
-    
+
     // More comprehensive email validation
-    const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    const emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
     return emailRegex.test(trimmedEmail);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Prevent multiple submissions
     if (state.isLoading) {
       return;
     }
-    
+
     if (!validateEmail(state.email)) {
       toast({
         title: "Email inválido",
@@ -63,47 +66,40 @@ export const NewsletterForm = () => {
       return;
     }
 
-    setState(prev => ({ ...prev, isLoading: true }));
+    setState((prev) => ({ ...prev, isLoading: true }));
 
     try {
-      // Simulating API call with timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-      
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: state.email.trim() }),
-        signal: controller.signal,
-      });
-      
+
+      const response = await emailDB.create(state.email);
+
       clearTimeout(timeoutId);
 
-      if (response.ok) {
-        setState(prev => ({ ...prev, isSubmitted: true, isLoading: false }));
-        toast({
-          title: "Sucesso!",
-          description: "Você foi inscrito na nossa newsletter.",
-        });
-      } else {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `Erro ${response.status}: ${response.statusText}`);
-      }
+      // if (response.ok) {
+      //   setState(prev => ({ ...prev, isSubmitted: true, isLoading: false }));
+      //   toast({
+      //     title: "Sucesso!",
+      //     description: "Você foi inscrito na nossa newsletter.",
+      //   });
+      // } else {
+      //   const errorData = await response.json().catch(() => ({}));
+      //   throw new Error(errorData.message || `Erro ${response.status}: ${response.statusText}`);
+      // }
     } catch (error) {
-      setState(prev => ({ ...prev, isLoading: false }));
-      
+      setState((prev) => ({ ...prev, isLoading: false }));
+
       let errorMessage = "Erro ao processar inscrição. Tente novamente.";
-      
+
       if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = "Tempo limite excedido. Verifique sua conexão e tente novamente.";
+        if (error.name === "AbortError") {
+          errorMessage =
+            "Tempo limite excedido. Verifique sua conexão e tente novamente.";
         } else {
           errorMessage = error.message;
         }
       }
-      
+
       toast({
         title: "Erro",
         description: errorMessage,
@@ -122,7 +118,9 @@ export const NewsletterForm = () => {
             Você receberá nossa próxima newsletter toda sexta-feira.
           </p>
           <button
-            onClick={() => setState(prev => ({ ...prev, isSubmitted: false, email: "" }))}
+            onClick={() =>
+              setState((prev) => ({ ...prev, isSubmitted: false, email: "" }))
+            }
             className="text-sm text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary/50 rounded"
           >
             Inscrever outro email
@@ -141,9 +139,13 @@ export const NewsletterForm = () => {
             type="email"
             placeholder="seu@email.com"
             value={state.email}
-            onChange={(e) => setState(prev => ({ ...prev, email: e.target.value }))}
+            onChange={(e) =>
+              setState((prev) => ({ ...prev, email: e.target.value }))
+            }
             className={`pl-10 h-12 text-base focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all duration-300 bg-input/50 ${
-              state.email && !validateEmail(state.email) ? 'border-destructive/50' : ''
+              state.email && !validateEmail(state.email)
+                ? "border-destructive/50"
+                : ""
             }`}
             disabled={state.isLoading}
             required
@@ -160,7 +162,11 @@ export const NewsletterForm = () => {
           size="lg"
           disabled={state.isLoading || !state.email.trim()}
           className="newsletter-button group h-12 px-6 min-w-[140px] sm:min-w-[160px] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 whitespace-nowrap"
-          aria-label={state.isLoading ? "Enviando inscrição..." : "Inscrever na newsletter"}
+          aria-label={
+            state.isLoading
+              ? "Enviando inscrição..."
+              : "Inscrever na newsletter"
+          }
           aria-busy={state.isLoading}
         >
           {state.isLoading ? (
@@ -178,7 +184,10 @@ export const NewsletterForm = () => {
           )}
         </Button>
       </div>
-      <p id="email-help" className="text-xs text-muted-foreground mt-3 text-center">
+      <p
+        id="email-help"
+        className="text-xs text-muted-foreground mt-3 text-center"
+      >
         Sem spam. Cancele quando quiser.
       </p>
     </form>

@@ -9,6 +9,9 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+import dotenv from "dotenv";
+
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>

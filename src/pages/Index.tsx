@@ -19,12 +19,12 @@ const Index = () => {
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
           As melhores ideias de
           <br />
-          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">SaaS do TabNews</span>
+          <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Negócios do TabNews</span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-lg sm:text-xl text-muted-foreground mb-8 max-w-lg mx-auto leading-relaxed">
-          Receba toda sexta-feira um resumo das oportunidades e tendências de SaaS mais promissoras da semana.
+          Receba toda sexta-feira um resumo das oportunidades e tendências de tecnologias mais promissoras da semana.
         </p>
 
         {/* Newsletter Form */}
