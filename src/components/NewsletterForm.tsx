@@ -90,7 +90,7 @@ export const NewsletterForm = () => {
             placeholder="seu@email.com"
             value={state.email}
             onChange={(e) => setState(prev => ({ ...prev, email: e.target.value }))}
-            className="pl-10 h-12 text-base focus:shadow-[var(--shadow-focus)] transition-all duration-300"
+            className="pl-10 h-12 text-base focus:shadow-[var(--shadow-focus)] focus:border-primary/50 transition-all duration-300 bg-input/50"
             disabled={state.isLoading}
             required
           />
