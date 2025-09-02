@@ -5,6 +5,74 @@
   text-align: center;
 }
 
+/* Newsletter form improvements */
+.newsletter-form {
+  width: 100%;
+  max-width: 28rem;
+}
+
+.newsletter-button {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.newsletter-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Mobile improvements */
+@media (max-width: 640px) {
+  .newsletter-form {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+  
+  .newsletter-button {
+    min-width: 120px !important;
+  }
+}
+
+/* Focus improvements */
+.newsletter-button:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Loading state improvements */
+.newsletter-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Newsletter cards improvements */
+.newsletter-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.newsletter-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;

@@ -1,7 +1,11 @@
 import { NewsletterForm } from "@/components/NewsletterForm";
-import { Code2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Code2, Mail, ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
+  const navigate = useNavigate();
+  
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-card p-4">
       <div className="text-center max-w-2xl mx-auto animate-fade-up">
@@ -24,8 +28,22 @@ const Index = () => {
         </p>
 
         {/* Newsletter Form */}
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full">
           <NewsletterForm />
+        </div>
+
+        {/* View Newsletters Button */}
+        <div className="mt-8">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => navigate("/newsletters")}
+            className="group hover:bg-primary/5 hover:border-primary/30 transition-all duration-300"
+          >
+            <Mail className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
+            Ver Newsletters Enviadas
+            <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       </div>
     </div>
