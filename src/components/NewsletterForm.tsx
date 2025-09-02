@@ -71,9 +71,9 @@ export const NewsletterForm = () => {
       <div className="flex flex-col items-center animate-fade-up">
         <div className="bg-card border rounded-2xl p-8 text-center shadow-lg max-w-md">
           <CheckCircle className="w-16 h-16 text-primary mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">Bem-vindo!</h3>
+          <h3 className="text-xl font-semibold mb-2">Pronto!</h3>
           <p className="text-muted-foreground">
-            Você receberá nossa próxima newsletter em breve.
+            Você receberá nossa próxima newsletter toda sexta-feira.
           </p>
         </div>
       </div>
@@ -109,7 +109,7 @@ export const NewsletterForm = () => {
             </>
           ) : (
             <>
-              Inscreva-se
+              Receba as ideias
               <ArrowRight className="w-4 h-4" />
             </>
           )}
